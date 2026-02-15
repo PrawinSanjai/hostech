@@ -7,7 +7,7 @@ from router import (
     receptionist
 )
 
-app = FastAPI(title="hosTech-Backend", docs_url="/docs", openapi_tags=["hosTech-Backend"])
+app = FastAPI(title="hosTech-Backend", docs_url="/docs")
 
 @app.get("/")
 def home():

@@ -5,6 +5,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.schema import MetaData
 from config import Configuration
+from models import Base
 
 config = Configuration()
 
@@ -19,6 +20,7 @@ NAMING_CONVENTION = {
 metadata = MetaData(naming_convention=NAMING_CONVENTION)
 print("DATABASE_URL", config.DATABASE_URL)
 engine = create_engine(config.DATABASE_URL, pool_pre_ping=True, pool_size=10, max_overflow=0)
+Base.metadata.create_all(engine)
 SessionLocal = sessionmaker(autocommit=False, expire_on_commit=False, autoflush=True, bind=engine)
 Base = declarative_base()
 
