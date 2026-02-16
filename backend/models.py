@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Text
 from sqlalchemy.orm import relationship
 from database import Base
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 class User(Base):
@@ -41,7 +41,7 @@ class Appointment(Base):
     id = Column(Integer, primary_key=True)
     doctor_id = Column(Integer, ForeignKey("doctors.id"))
     patient_id = Column(Integer, ForeignKey("patients.id"))
-    appointment_time = Column(DateTime, default=datetime.utcnow)
+    appointment_time = Column(DateTime, default=datetime.now(timezone.utc))
     status = Column(String, default="scheduled")
 
     doctor = relationship("Doctor", back_populates="appointments")
@@ -55,7 +55,7 @@ class MedicalRecord(Base):
     doctor_id = Column(Integer, ForeignKey("doctors.id"))
     diagnosis = Column(Text)
     prescription = Column(Text)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=datetime.now(timezone.utc))
 
     patient = relationship("Patient", back_populates="medical_records")
 

@@ -5,10 +5,8 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.schema import MetaData
 from config import Configuration
-from models import Base
 
 config = Configuration()
-
 
 NAMING_CONVENTION = {
     "ix": "ix_%(column_0_label)s",
@@ -18,11 +16,9 @@ NAMING_CONVENTION = {
     "pk": "pk_%(table_name)s",
 }
 metadata = MetaData(naming_convention=NAMING_CONVENTION)
-print("DATABASE_URL", config.DATABASE_URL)
-engine = create_engine(config.DATABASE_URL, pool_pre_ping=True, pool_size=10, max_overflow=0)
-Base.metadata.create_all(engine)
-SessionLocal = sessionmaker(autocommit=False, expire_on_commit=False, autoflush=True, bind=engine)
 Base = declarative_base()
+engine = create_engine(config.DATABASE_URL, pool_pre_ping=True, pool_size=10, max_overflow=0)
+SessionLocal = sessionmaker(autocommit=False, expire_on_commit=False, autoflush=True, bind=engine)
 
 @contextmanager
 def db_session():
